@@ -22,12 +22,20 @@ const Board = () => {
   ]);
 
   const placeFunc = () => {
-    setPlace((prevState) => ({
-      ...prevState,
-      rowPosition: horizontal,
-      columnPosition: vertical,
-      direction: facing,
-    }));
+    const isPositionOccupied = walls.some(
+      (wall) => wall.row === vertical && wall.column === horizontal
+    );
+      if (!isPositionOccupied) {
+      setPlace((prevState) => ({
+        ...prevState,
+        rowPosition: vertical,
+        columnPosition: horizontal,
+        direction: facing,
+      }));
+    } else {
+
+      console.log('Position is occupied. Cannot place robot.');
+    }
   };
 
   const moveFunc = () => {
