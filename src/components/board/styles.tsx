@@ -45,9 +45,12 @@ export const Wrapper = styled.div`
   border: 1px solid black;
 `;
 
-export const Field = styled.div<GridPosition & { isBlue: boolean }>`
+export const Field = styled.div<
+  GridPosition & { isBlue: boolean; isRed: boolean }
+>`
   border: 1px solid black;
-  background: ${(props) => (props.isBlue ? "blue" : "green")};
+  background: ${(props) =>
+    props.isBlue ? "blue" : props.isRed ? "red" : "green"};
   width: 50px;
   height: 50px;
   display: flex;
@@ -80,4 +83,5 @@ export const InputFields = styled.div`
   gap: 12px;
   align-items: stretch;
   justify-content: center;
+  margin-bottom: 20px;
 `;
