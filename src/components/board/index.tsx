@@ -173,8 +173,8 @@ const Board = () => {
         ))}
       </S.CordinatesHorizontal>
       <S.CordinatesVertical>
-        {cordinatesArray.map((_, k) => (
-          <p key={k}>{k + 1}</p>
+        {cordinatesArray.reverse().map((_, k) => (
+          <p key={k}>{5 - k}</p>
         ))}
       </S.CordinatesVertical>
       <S.Wrapper>
@@ -202,12 +202,13 @@ const Board = () => {
           );
         })}
       </S.Wrapper>
-      <S.InputFields>
-        {selectedAction !== "MOVE" &&
-          selectedAction !== "RIGHT" &&
-          selectedAction !== "LEFT" &&
-          selectedAction !== "REPORT" && (
-            <>
+
+      {selectedAction !== "MOVE" &&
+        selectedAction !== "RIGHT" &&
+        selectedAction !== "LEFT" &&
+        selectedAction !== "REPORT" && (
+          <S.InputFields>
+            <S.InputField>
               <label htmlFor="vertical">Row</label>{" "}
               {/* here it has been reversed because of flip style so vertical is actually a row*/}
               <input
@@ -215,41 +216,47 @@ const Board = () => {
                 id="vertical"
                 onChange={(e) => setVertical(parseInt(e.target.value))}
               />
+            </S.InputField>
+
+            <S.InputField>
               <label htmlFor="horizontal">Column</label>
               <input
                 value={horizontal.toString()}
                 id="horizontal"
                 onChange={(e) => setHorizontal(parseInt(e.target.value))}
               />
-              {selectedAction !== "PLACE_WALL" && (
-                <>
-                  <label htmlFor="facing">Facing</label>
+            </S.InputField>
 
-                  <input
-                    value={facing.toLocaleUpperCase()}
-                    id="facing"
-                    onChange={(e) => setFacing(e.target.value)}
-                  />
-                </>
-              )}
-            </>
-          )}
+            {selectedAction !== "PLACE_WALL" && (
+              <S.InputField>
+                <label htmlFor="facing">Facing</label>
 
-        {(selectedAction === "LEFT" || selectedAction === "RIGHT") && (
-          <>
-            <label htmlFor="facing">Facing</label>
-
-            <input
-              value={facing.toLocaleUpperCase()}
-              id="facing"
-              disabled
-              onChange={(e) => setFacing(e.target.value)}
-            />
-          </>
+                <input
+                  value={facing.toLocaleUpperCase()}
+                  id="facing"
+                  onChange={(e) => setFacing(e.target.value)}
+                />
+              </S.InputField>
+            )}
+          </S.InputFields>
         )}
 
+      {(selectedAction === "LEFT" || selectedAction === "RIGHT") && (
+        <S.InputField>
+          <label htmlFor="facing">Facing</label>
+
+          <input
+            value={facing.toLocaleUpperCase()}
+            id="facing"
+            disabled
+            onChange={(e) => setFacing(e.target.value)}
+          />
+        </S.InputField>
+      )}
+
+      <S.InputField>
         <label htmlFor="action">Action</label>
-        <select
+        <S.Select
           id="action"
           value={selectedAction}
           onChange={(e) => setSelectedAction(e.target.value)}
@@ -257,9 +264,9 @@ const Board = () => {
           {options.map((option, y) => (
             <option key={y}>{option}</option>
           ))}
-        </select>
-      </S.InputFields>
-      <button onClick={handlers[selectedAction]}>Generate</button>
+        </S.Select>
+      </S.InputField>
+      <S.Button onClick={handlers[selectedAction]}>Generate</S.Button>
     </S.OuterWrapper>
   );
 };
