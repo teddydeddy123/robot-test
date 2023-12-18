@@ -10,19 +10,23 @@ export const OuterWrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  gap: 10px;
+  gap: 12px;
 `;
 
 export const CordinatesHorizontal = styled.div`
   display: grid;
   grid-template-columns: repeat(5, 1fr);
+  width: 259px;
+  position: absolute;
+  transform: scale(1, -1);
+  bottom: -20%;
 `;
 
 export const CordinatesVertical = styled.div`
   display: grid;
   position: absolute;
   right: 105%;
-  top: 8%;
+  transform: scale(1, -1);
   p {
     margin: 0.9em auto;
   }
@@ -33,6 +37,7 @@ export const Wrapper = styled.div`
   display: grid;
   max-width: fit-content;
   align-self: center;
+  position: relative;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(5, 1fr);
   border: 1px solid #e5e5e5;
@@ -70,24 +75,32 @@ export const RobotIcon = styled(ArrowCircleDown)<{ facing: string }>`
 
 export const InputFields = styled.div`
   display: flex;
-  margin-top: 25px;
+  /* margin-top: 25px; */
   flex-direction: row;
   margin-bottom: 20px;
   justify-content: space-around;
+  align-items: center;
+  max-width: 260px;
+  align-self: center;
+  gap: 12px;
 `;
 
 export const InputField = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 5px;
   align-items: center;
   input {
-    border: 2px solid black;
+    border: none;
     background: #e5e5e5;
     color: black;
+    border-radius: 20px;
     padding: 5px;
     max-width: 65px;
     text-align: center;
+    &:focus {
+      outline: none;
+    }
   }
   label {
     text-align: left;
@@ -99,6 +112,9 @@ export const Button = styled.button`
   border-radius: 20px;
   border: 1px solid #e5e5e5;
   margin-top: 30px;
+  &:hover {
+    background: #765fdd;
+  }
 `;
 
 export const Select = styled.select`
@@ -106,6 +122,9 @@ export const Select = styled.select`
   padding: 7px 20px;
   background: white;
   color: black;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
 `;
 
 export const Error = styled.p`
@@ -116,5 +135,5 @@ export const Error = styled.p`
 export const Report = styled.div`
   color: white;
   font-weight: 500;
-  margin-top: -30px;
+  margin-bottom: 70px;
 `;
