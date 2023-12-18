@@ -57,6 +57,7 @@ const Board = () => {
     setReport("");
   }, [place]);
 
+  const op = ["SOUTH", "NORTH", "EAST", "WEST"];
   return (
     <S.OuterWrapper>
       <S.Report>{report}</S.Report>
@@ -123,11 +124,15 @@ const Board = () => {
             <S.InputField>
               <label htmlFor="facing">Facing</label>
 
-              <input
+              <S.Select
                 value={facing.toLocaleUpperCase()}
                 id="facing"
                 onChange={(e) => setFacing(e.target.value as FacingType)}
-              />
+              >
+                {op.map((face, h) => (
+                  <option key={h}>{face}</option>
+                ))}
+              </S.Select>
             </S.InputField>
           )}
         </S.InputFields>
