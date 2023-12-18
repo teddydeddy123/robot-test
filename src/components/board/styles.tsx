@@ -46,7 +46,7 @@ export const Wrapper = styled.div`
 
 export const Field = styled.div<GridPosition & { isRed: boolean }>`
   border: 1px solid #e5e5e5;
-  background: ${(props) => (props.isRed ? "red" : " #FCA311")};
+  background: ${(props) => (props.isRed ? "#660505" : " #FCA311")};
   width: 50px;
   height: 50px;
   display: flex;
@@ -75,7 +75,6 @@ export const RobotIcon = styled(ArrowCircleDown)<{ facing: string }>`
 
 export const InputFields = styled.div`
   display: flex;
-  /* margin-top: 25px; */
   flex-direction: row;
   margin-bottom: 20px;
   justify-content: space-around;
@@ -110,10 +109,13 @@ export const InputField = styled.div`
 export const Button = styled.button`
   background: #9f8ee7;
   border-radius: 20px;
-  border: 1px solid #e5e5e5;
+  border: none;
   margin-top: 30px;
   &:hover {
     background: #765fdd;
+  }
+  &:focus {
+    outline: none;
   }
 `;
 

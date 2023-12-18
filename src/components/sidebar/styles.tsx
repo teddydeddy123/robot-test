@@ -19,3 +19,26 @@ export const Wrapper = styled.div<{ instructions: boolean }>`
     font-size: 70px;
   }
 `;
+
+export const Title = styled.h1`
+  font-family: "monospace";
+`;
+
+export const InstructionsWrapper = styled.div`
+  text-align: left;
+  padding: 20px;
+  font-family: monospace;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+`;
+
+export const Instruction = styled.div`
+  h2 {
+    margin: 0;
+  }
+  p {
+    margin: 0;
+    font-size: 14px;
+  }
+`;
