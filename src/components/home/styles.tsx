@@ -15,5 +15,5 @@ export const Sidebar = styled.div`
   position: absolute;
   left: 0;
   top: 0;
-  background-color: red;
+  background-color: #3c6e71;
 `;

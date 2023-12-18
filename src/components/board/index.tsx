@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "./styles";
 
 type FacingType = "SOUTH" | "NORTH" | "EAST" | "WEST" | "";
@@ -9,6 +9,8 @@ const Board = () => {
   const [vertical, setVertical] = useState<number | null>(null);
   const [facing, setFacing] = useState<FacingType>("SOUTH");
   const [selectedAction, setSelectedAction] = useState("PLACE_ROBOT");
+  const [error, setError] = useState("");
+  const [report, setReport] = useState("");
   const [place, setPlace] = useState({
     rowPosition: 0,
     columnPosition: 0,
@@ -54,6 +56,7 @@ const Board = () => {
   };
 
   const [walls, setWalls] = useState<WallType>([
+    //fix this!!!
     {
       row: 0,
       column: 0,
@@ -61,7 +64,7 @@ const Board = () => {
   ]);
 
   const reportFunc = () => {
-    console.log(`${place.rowPosition}, ${place.columnPosition}, ${facing}`);
+    setReport(`${place.rowPosition}, ${place.columnPosition}, ${facing}`);
   };
 
   const placeFunc = () => {
@@ -75,14 +78,13 @@ const Board = () => {
         columnPosition: horizontal!,
         direction: facing,
       }));
+      if (vertical !== null && horizontal !== null)
+        if (vertical > 5 || vertical < 1 || horizontal > 5 || horizontal < 1)
+          setError("Position is out of range");
     } else {
-      console.log("Position is occupied. Cannot place robot.");
+      setError("Position is occupied. Cannot place robot.");
     }
   };
-
-  console.log({ walls });
-  console.log("VERT", place.columnPosition);
-  console.log("hor", place.rowPosition);
 
   const moveFunc = () => {
     let nextRow = place.rowPosition;
@@ -119,7 +121,6 @@ const Board = () => {
         if (nextRow > 5 || nextRow < 1 || nextColumn > 5 || nextColumn < 1) {
           // If next position is out of bounds, set direction to opoisute direction
           setFacing(newFacing as FacingType);
-          console.log("Value is greater or less");
         } else {
           setPlace((prevState) => ({
             ...prevState,
@@ -129,18 +130,24 @@ const Board = () => {
           }));
         }
       } else {
-        console.log("Current facing direction not found in directionDeg.");
+        setError("Current facing direction not found in directionDeg.");
       }
     } else {
-      console.log("Position is occupied. Cannot move robot.");
+      setError("Position is occupied. Cannot move robot.");
     }
   };
 
+  console.log(
+    place.rowPosition !== vertical && place.columnPosition !== horizontal,
+  );
+
   const placeWallFunc = () => {
-    setWalls((prevState) => [
-      ...prevState,
-      { row: vertical!, column: horizontal! },
-    ]);
+    if (place.rowPosition !== vertical || place.columnPosition !== horizontal) {
+      setWalls((prevState) => [
+        ...prevState,
+        { row: vertical!, column: horizontal! },
+      ]);
+    } else setError("Position is occupied by robot. Cannot place wall.");
   };
 
   const array = Array.from({ length: 25 });
@@ -149,7 +156,7 @@ const Board = () => {
 
   const options =
     place.columnPosition === 0 || place.rowPosition === 0
-      ? ["MOVE"]
+      ? ["PLACE_ROBOT", "PLACE_WALL"]
       : ["MOVE", "PLACE_ROBOT", "PLACE_WALL", "LEFT", "RIGHT", "REPORT"];
 
   const handlers: Record<string, () => void> = {
@@ -161,6 +168,16 @@ const Board = () => {
     REPORT: () => reportFunc(),
   };
 
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setError("");
+      clearInterval(timeout);
+    }, 3000);
+  }, [error]);
+
+  useEffect(() => {
+    setReport("");
+  }, [place]);
   return (
     <S.OuterWrapper>
       <S.CordinatesHorizontal>
@@ -195,7 +212,8 @@ const Board = () => {
           );
         })}
       </S.Wrapper>
-
+      <S.Report>{report}</S.Report>
+      <S.Error>{error}</S.Error>
       {selectedAction !== "MOVE" &&
         selectedAction !== "RIGHT" &&
         selectedAction !== "LEFT" &&
