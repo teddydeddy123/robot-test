@@ -1,15 +1,6 @@
 import styled from "styled-components";
 
-export const Wrapper = styled.div`
-  position: relative;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-`;
-
-export const Sidebar = styled.div<{ instructions: boolean }>`
+export const Wrapper = styled.div<{ instructions: boolean }>`
   width: ${(props) => (props.instructions ? "80%" : "90px")};
   height: 100%;
   position: absolute;
