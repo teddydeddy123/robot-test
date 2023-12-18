@@ -10,7 +10,7 @@ export const OuterWrapper = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
-  max-width: fit-content;
+  gap: 10px;
 `;
 
 export const CordinatesHorizontal = styled.div`
@@ -31,6 +31,8 @@ export const CordinatesVertical = styled.div`
 export const Wrapper = styled.div`
   transform: scale(1, -1);
   display: grid;
+  max-width: fit-content;
+  align-self: center;
   grid-template-columns: repeat(5, 1fr);
   grid-template-rows: repeat(5, 1fr);
   border: 1px solid #e5e5e5;
@@ -104,4 +106,15 @@ export const Select = styled.select`
   padding: 7px 20px;
   background: white;
   color: black;
+`;
+
+export const Error = styled.p`
+  color: #ff9200;
+  font-weight: 500;
+`;
+
+export const Report = styled.div`
+  color: white;
+  font-weight: 500;
+  margin-top: -30px;
 `;
