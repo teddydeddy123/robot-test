@@ -3,7 +3,7 @@ describe("template spec", () => {
     cy.visit("http://localhost:5173/");
     cy.get('input[id="vertical"]').eq(0).type("3");
     cy.get('input[id="horizontal"]').eq(0).type("3");
-    cy.get('input[id="facing"]').eq(0).clear().type("NORTH");
+    cy.get('select[id="facing"]').select("NORTH");
     cy.get("button").contains("Generate").eq(0).click();
     //
     cy.get('select[id="action"]').select("PLACE_WALL");
