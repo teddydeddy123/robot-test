@@ -5,9 +5,10 @@ type PlaceType = {
   columnPosition: number;
   direction: string;
 };
-type CoordinatesType = number | null;
+export type CoordinatesType = number | null;
 
 export const restrictedFields = ["MOVE", "RIGHT", "LEFT", "REPORT"];
+
 export const directionDeg = [
   {
     facing: "NORTH",
@@ -122,7 +123,7 @@ export const placeFunc = (
   ) {
     if (vertical !== null && horizontal !== null)
       if (vertical > 5 || vertical < 1 || horizontal > 5 || horizontal < 1)
-        setError("Position is out of range");
+        setError("Position is out of range. Cannot place robot.");
       else {
         setPlace((prevState) => ({
           ...prevState,
