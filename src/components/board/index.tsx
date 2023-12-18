@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import * as S from "./styles";
 import {
+  CoordinatesType,
   FacingType,
   WallType,
   moveFunc,
@@ -12,8 +13,8 @@ import {
 } from "../../utils";
 
 const Board = () => {
-  const [horizontal, setHorizontal] = useState<number | null>(null);
-  const [vertical, setVertical] = useState<number | null>(null);
+  const [horizontal, setHorizontal] = useState<CoordinatesType>(null);
+  const [vertical, setVertical] = useState<CoordinatesType>(null);
   const [facing, setFacing] = useState<FacingType>("SOUTH");
   const [selectedAction, setSelectedAction] = useState("PLACE_ROBOT");
   const [error, setError] = useState("");
@@ -59,7 +60,6 @@ const Board = () => {
   return (
     <S.OuterWrapper>
       <S.Report>{report}</S.Report>
-
       <S.Wrapper>
         <S.CordinatesHorizontal>
           {cordinatesArray.map((_, k) => (
@@ -103,12 +103,11 @@ const Board = () => {
               value={(vertical ?? "").toString()}
               id="vertical"
               onChange={(e) => {
-                const value = e.target.value.trim(); // Trim otherwise NAN
+                const value = e.target.value.trim(); // Trim otherwise throws NAN
                 setVertical(value !== "" ? parseInt(value) : null);
               }}
             />
           </S.InputField>
-
           <S.InputField>
             <label htmlFor="horizontal">Column</label>
             <input
@@ -120,7 +119,6 @@ const Board = () => {
               }}
             />
           </S.InputField>
-
           {selectedAction !== "PLACE_WALL" && (
             <S.InputField>
               <label htmlFor="facing">Facing</label>
