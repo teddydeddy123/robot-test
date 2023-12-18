@@ -82,6 +82,7 @@ export const rotateFunc = (
   action: string,
   facing: FacingType,
   setFacing: React.Dispatch<React.SetStateAction<FacingType>>,
+  setPlace: React.Dispatch<React.SetStateAction<PlaceType>>,
 ) => {
   const currentIndex = directionDeg.findIndex((item) => item.facing === facing);
 
@@ -91,11 +92,15 @@ export const rotateFunc = (
     if (action === "left") newDeg = (currentDeg + 360 + 90) % 360;
     else if (action === "right") newDeg = (currentDeg + 360 - 90) % 360;
 
-    // Find the new facing direction based on the updated deg value
     const newFacing =
       directionDeg.find((item) => item.deg === newDeg)?.facing || facing;
 
-    // Update the facing state
+    setPlace((prevState) => ({
+      ...prevState,
+      rowPosition: prevState.rowPosition,
+      columnPosition: prevState.columnPosition,
+      direction: newFacing,
+    }));
     setFacing(newFacing as FacingType);
   }
 };

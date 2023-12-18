@@ -23,16 +23,12 @@ const Board = () => {
     columnPosition: 0,
     direction: "",
   });
-  const [walls, setWalls] = useState<WallType>([
-    //fix this!!!
-    {
-      row: 0,
-      column: 0,
-    },
-  ]);
+  const [walls, setWalls] = useState<WallType>([]);
 
   const array = Array.from({ length: 25 });
+
   const cordinatesArray = Array.from({ length: 5 });
+
   const options =
     place.columnPosition === 0 || place.rowPosition === 0
       ? ["PLACE_ROBOT", "PLACE_WALL"]
@@ -44,8 +40,8 @@ const Board = () => {
     MOVE: () => moveFunc(place, setPlace, setError, walls, facing),
     PLACE_WALL: () =>
       placeWallFunc(place, vertical, horizontal, setWalls, setError),
-    LEFT: () => rotateFunc("left", facing, setFacing),
-    RIGHT: () => rotateFunc("right", facing, setFacing),
+    LEFT: () => rotateFunc("left", facing, setFacing, setPlace),
+    RIGHT: () => rotateFunc("right", facing, setFacing, setPlace),
     REPORT: () => reportFunc(place, facing, setReport),
   };
 
@@ -89,8 +85,10 @@ const Board = () => {
             >
               {row === place["rowPosition"] &&
                 col === place["columnPosition"] && (
-                  // <S.RobotIcon size={30} facing={place["direction"]} />
-                  <S.RobotIcon size={30} facing={facing} />
+                  <S.RobotIcon
+                    size={30}
+                    facing={place["direction"].toLocaleUpperCase()}
+                  />
                 )}
             </S.Field>
           );
@@ -100,12 +98,12 @@ const Board = () => {
         <S.InputFields>
           <S.InputField>
             <label htmlFor="vertical">Row</label>{" "}
-            {/* here it has been reversed because of flip style so vertical is actually a row*/}
+            {/* here it has been reversed because of flip (scale 1, -1) style so vertical is actually a row*/}
             <input
               value={(vertical ?? "").toString()}
               id="vertical"
               onChange={(e) => {
-                const value = e.target.value.trim(); // Trim leading/trailing spaces
+                const value = e.target.value.trim(); // Trim otherwise NAN
                 setVertical(value !== "" ? parseInt(value) : null);
               }}
             />
@@ -117,7 +115,7 @@ const Board = () => {
               value={(horizontal ?? "").toString()}
               id="horizontal"
               onChange={(e) => {
-                const value = e.target.value.trim(); // Trim leading/trailing spaces
+                const value = e.target.value.trim();
                 setHorizontal(value !== "" ? parseInt(value) : null);
               }}
             />
@@ -136,20 +134,6 @@ const Board = () => {
           )}
         </S.InputFields>
       )}
-
-      {/* {(selectedAction === "LEFT" || selectedAction === "RIGHT") && (
-        <S.InputField>
-          <label htmlFor="facing">Facing</label>
-
-          <input
-            value={facing.toLocaleUpperCase()}
-            id="facing"
-            disabled
-            onChange={(e) => setFacing(e.target.value as FacingType)}
-          />
-        </S.InputField>
-      )} */}
-
       <S.InputField>
         <label htmlFor="action">Action</label>
         <S.Select
