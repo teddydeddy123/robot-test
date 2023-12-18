@@ -1,19 +1,10 @@
-import styled, { keyframes } from "styled-components";
+import styled from "styled-components";
 import { ArrowCircleDown } from "@styled-icons/fluentui-system-filled/ArrowCircleDown";
 
 type GridPosition = {
   vertical: number;
   horizontal: number;
 };
-
-const rotateAnimation = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-`;
 
 export const OuterWrapper = styled.div`
   display: flex;
@@ -46,12 +37,9 @@ export const Wrapper = styled.div`
   margin-bottom: 30px;
 `;
 
-export const Field = styled.div<
-  GridPosition & { isBlue: boolean; isRed: boolean }
->`
+export const Field = styled.div<GridPosition & { isRed: boolean }>`
   border: 1px solid #e5e5e5;
-  background: ${(props) =>
-    props.isBlue ? "blue" : props.isRed ? "red" : " #FCA311"};
+  background: ${(props) => (props.isRed ? "red" : " #FCA311")};
   width: 50px;
   height: 50px;
   display: flex;

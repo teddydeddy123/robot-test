@@ -5,8 +5,8 @@ type FacingType = "SOUTH" | "NORTH" | "EAST" | "WEST" | "";
 type WallType = { row: number; column: number }[];
 
 const Board = () => {
-  const [horizontal, setHorizontal] = useState(0);
-  const [vertical, setVertical] = useState(0);
+  const [horizontal, setHorizontal] = useState<number | null>(null);
+  const [vertical, setVertical] = useState<number | null>(null);
   const [facing, setFacing] = useState<FacingType>("SOUTH");
   const [selectedAction, setSelectedAction] = useState("PLACE_ROBOT");
   const [place, setPlace] = useState({
@@ -71,8 +71,8 @@ const Board = () => {
     if (!isPositionOccupied) {
       setPlace((prevState) => ({
         ...prevState,
-        rowPosition: vertical,
-        columnPosition: horizontal,
+        rowPosition: vertical!,
+        columnPosition: horizontal!,
         direction: facing,
       }));
     } else {
@@ -109,7 +109,7 @@ const Board = () => {
       if (currentIndex !== -1) {
         const currentDeg = directionDeg[currentIndex].deg;
 
-        let newDeg;
+        let newDeg: number;
         if (currentDeg > 360) newDeg = (currentDeg - 180) % 360;
         else newDeg = (currentDeg + 180) % 360;
 
@@ -118,7 +118,7 @@ const Board = () => {
 
         if (nextRow > 5 || nextRow < 1 || nextColumn > 5 || nextColumn < 1) {
           // If next position is out of bounds, set direction to opoisute direction
-          setFacing(newFacing);
+          setFacing(newFacing as FacingType);
           console.log("Value is greater or less");
         } else {
           setPlace((prevState) => ({
@@ -139,7 +139,7 @@ const Board = () => {
   const placeWallFunc = () => {
     setWalls((prevState) => [
       ...prevState,
-      { row: vertical, column: horizontal },
+      { row: vertical!, column: horizontal! },
     ]);
   };
 
@@ -147,16 +147,12 @@ const Board = () => {
   const cordinatesArray = Array.from({ length: 5 });
   //maybe add a switch case function
 
-  const options = [
-    "MOVE",
-    "PLACE_ROBOT",
-    "PLACE_WALL",
-    "LEFT",
-    "RIGHT",
-    "REPORT",
-  ];
+  const options =
+    place.columnPosition === 0 || place.rowPosition === 0
+      ? ["MOVE"]
+      : ["MOVE", "PLACE_ROBOT", "PLACE_WALL", "LEFT", "RIGHT", "REPORT"];
 
-  const handlers = {
+  const handlers: Record<string, () => void> = {
     PLACE_ROBOT: () => placeFunc(),
     MOVE: () => moveFunc(),
     PLACE_WALL: () => placeWallFunc(),
@@ -189,9 +185,6 @@ const Board = () => {
               isRed={walls.some(
                 (wall) => wall.row === row && wall.column === col,
               )}
-              isBlue={
-                row === place["rowPosition"] && col === place["columnPosition"]
-              }
             >
               {row === place["rowPosition"] &&
                 col === place["columnPosition"] && (
@@ -212,7 +205,7 @@ const Board = () => {
               <label htmlFor="vertical">Row</label>{" "}
               {/* here it has been reversed because of flip style so vertical is actually a row*/}
               <input
-                value={vertical.toString()}
+                value={(vertical ?? "").toString()}
                 id="vertical"
                 onChange={(e) => setVertical(parseInt(e.target.value))}
               />
@@ -221,7 +214,7 @@ const Board = () => {
             <S.InputField>
               <label htmlFor="horizontal">Column</label>
               <input
-                value={horizontal.toString()}
+                value={(horizontal ?? "").toString()}
                 id="horizontal"
                 onChange={(e) => setHorizontal(parseInt(e.target.value))}
               />
@@ -234,7 +227,7 @@ const Board = () => {
                 <input
                   value={facing.toLocaleUpperCase()}
                   id="facing"
-                  onChange={(e) => setFacing(e.target.value)}
+                  onChange={(e) => setFacing(e.target.value as FacingType)}
                 />
               </S.InputField>
             )}
@@ -249,7 +242,7 @@ const Board = () => {
             value={facing.toLocaleUpperCase()}
             id="facing"
             disabled
-            onChange={(e) => setFacing(e.target.value)}
+            onChange={(e) => setFacing(e.target.value as FacingType)}
           />
         </S.InputField>
       )}
