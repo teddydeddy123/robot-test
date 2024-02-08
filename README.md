@@ -6,10 +6,6 @@
 
 This repo contains cypress testing via `npm run cypress:run` - **PLEASE READ COMMENTS**
 
-## !! **IMPORTANT NOTE** !!:
-
-After careful examination of the brief I received, I have strong reasons to believe that the examples given for each function and the test at the end of the document use different methodologies. As a consequence, the result of the cypress tests is (slightly) different than the one indicated in the pdf. For further details please consult comments in cypress test `first.cy.ts` .
-
 ## GENERAL UI/UX DETAILS:
 
 -On the left side of the home page there is a list of instructions with a description.
